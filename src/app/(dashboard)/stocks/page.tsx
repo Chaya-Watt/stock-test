@@ -1,44 +1,80 @@
 'use client'
 
 import UploadImageButton from '@/components/Button/UploadImageButton'
-import React, { useState } from 'react'
+import ImageComponent from '@/components/Image'
+import React, { useEffect, useState } from 'react'
+import styles from './stocks.styles.module.css'
+import { swapElements } from '@/util'
 
 const StocksDashboard = () => {
   const [imageList, setImageList] = useState<File[]>([])
+  const [moveIndex, setMoveIndex] = useState<{ from?: number; to?: number }>({
+    from: undefined,
+    to: undefined,
+  })
+
+  useEffect(() => {
+    if (moveIndex.from !== undefined && moveIndex.to !== undefined) {
+      const newList = swapElements(imageList, moveIndex.from, moveIndex.to)
+
+      setImageList(newList)
+      setMoveIndex({
+        from: undefined,
+        to: undefined,
+      })
+    }
+  }, [moveIndex])
 
   return (
-    <div
-      style={{ backgroundColor: '#F6F6F6', padding: 20 }}
-      className="w-full h-full bg-slate-500"
-    >
-      <div
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          height: 100,
-          padding: 10,
-          borderRadius: 16,
-        }}
-      >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: 20, fontWeight: 500 }}>Upload Images</span>
-            <span style={{ fontSize: 14, fontWeight: 400, color: '#6D6D6D' }}>
+    <div className={styles.containerStockContent}>
+      <div className={styles.containerUploadImages}>
+        <div className={styles.containerHeaderUploadImages}>
+          <div className={styles.groupTextHeader}>
+            <span className={styles.textHeader}>Upload Images</span>
+            <span className={styles.textDescription}>
               Click to upload. Max file size is 5 MB. Supported file types are
               .jpg, and .png.
             </span>
           </div>
-          <UploadImageButton
-            title={'Upload'}
-            onSelect={(fileList) => {
-              setImageList((prev) => [...prev, ...fileList])
-            }}
-          />
+          <div>
+            <UploadImageButton
+              title={'Upload'}
+              onSelect={(fileList) => {
+                setImageList((prev) => [...prev, ...fileList])
+              }}
+            />
+          </div>
         </div>
-        {imageList.map((item) => {
-          const image = URL.createObjectURL(item)
-          return <img alt="preview image" src={image} key={item} />
-        })}
+        {imageList.length > 0 && (
+          <div className={styles.containerListImageUpload}>
+            {imageList.map((item, index) => {
+              const image = URL.createObjectURL(item)
+              return (
+                <ImageComponent
+                  imageFile={image}
+                  imageName={'test'}
+                  key={`${item.name}_${index}`}
+                  index={index}
+                  onDelete={(deletedIndex) =>
+                    setImageList((prev) =>
+                      prev.filter((_, index) => index !== deletedIndex)
+                    )
+                  }
+                  onMove={(index) => {
+                    const from = moveIndex.from
+                    const to = moveIndex.to
+
+                    if (from === undefined) {
+                      setMoveIndex((prev) => ({ ...prev, from: index }))
+                    } else {
+                      setMoveIndex((prev) => ({ ...prev, to: index }))
+                    }
+                  }}
+                />
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,0 +1,30 @@
+.containerImageComponent {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
+    height: 156px;
+    width: 152px;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #FFFFFF;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image {
+    width: 136px;
+    height: 112px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.moreIcon {
+    width: 15px;
+    height: 3.5px;
+}
