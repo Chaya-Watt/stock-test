@@ -1,0 +1,7 @@
+.collapse-container {
+        background-color: #F6F6F6;
+}
+
+.collapse-container.active {
+        background-color: #7A2522;
+}
