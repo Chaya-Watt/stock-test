@@ -4,7 +4,7 @@ import UploadImageButton from '@/components/Button/UploadImageButton'
 import ImageComponent from '@/components/Image'
 import React, { useEffect, useState } from 'react'
 import styles from './stocks.styles.module.css'
-import { swapElements } from '@/util'
+import { arrayMove, swapElements } from '@/util'
 
 const StocksDashboard = () => {
   const [imageList, setImageList] = useState<File[]>([])
@@ -15,7 +15,7 @@ const StocksDashboard = () => {
 
   useEffect(() => {
     if (moveIndex.from !== undefined && moveIndex.to !== undefined) {
-      const newList = swapElements(imageList, moveIndex.from, moveIndex.to)
+      const newList = arrayMove(imageList, moveIndex.from, moveIndex.to)
 
       setImageList(newList)
       setMoveIndex({
