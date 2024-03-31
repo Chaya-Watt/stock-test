@@ -8,6 +8,7 @@ interface ImageComponentPropsType {
   index: number
   onDelete?: (index: number) => void
   onMove?: (index: number) => void
+  disableSwitch?: boolean
 }
 
 const ImageComponent = ({
@@ -16,18 +17,27 @@ const ImageComponent = ({
   index,
   onDelete,
   onMove,
+  disableSwitch,
 }: ImageComponentPropsType) => {
   return (
-    <div className={styles.containerImageComponent}>
+    <div
+      className={`${styles.containerImageComponent} ${
+        disableSwitch && styles.disabled
+      }`}
+    >
       <div className={`${styles.row}`}>
         <span>{imageName}</span>
         <div className={styles.row}>
-          <div onClick={() => onDelete && onDelete(index)}>
-            <DeleteIcon sx={{ color: 'red' }} />
-          </div>
-          <div onClick={() => onMove && onMove(index)}>
-            <SwapHorizIcon />
-          </div>
+          {!disableSwitch && (
+            <>
+              <div onClick={() => onDelete && onDelete(index)}>
+                <DeleteIcon sx={{ color: 'red' }} />
+              </div>
+              <div onClick={() => onMove && onMove(index)}>
+                <SwapHorizIcon />
+              </div>
+            </>
+          )}
         </div>
       </div>
       <img alt="preview image" src={imageFile} className={styles.image} />

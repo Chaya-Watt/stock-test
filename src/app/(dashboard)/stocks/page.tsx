@@ -55,6 +55,7 @@ const StocksDashboard = () => {
                   imageName={'test'}
                   key={`${item.name}_${index}`}
                   index={index}
+                  disableSwitch={index === moveIndex.from || index === moveIndex.to}
                   onDelete={(deletedIndex) =>
                     setImageList((prev) =>
                       prev.filter((_, index) => index !== deletedIndex)
