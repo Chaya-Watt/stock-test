@@ -26,7 +26,7 @@ const ImageComponent = ({
       }`}
     >
       <div className={`${styles.row}`}>
-        <span>{imageName}</span>
+        <span className={styles.imageName}>{imageName}</span>
         <div className={styles.row}>
           {!disableSwitch && (
             <>

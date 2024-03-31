@@ -52,7 +52,7 @@ const StocksDashboard = () => {
               return (
                 <ImageComponent
                   imageFile={image}
-                  imageName={'test'}
+                  imageName={item.name}
                   key={`${item.name}_${index}`}
                   index={index}
                   disableSwitch={index === moveIndex.from || index === moveIndex.to}
